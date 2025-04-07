@@ -1,5 +1,8 @@
+const http = require("http");
 const WebSocket = require("ws");
-const wss = new WebSocket.Server({ port: process.env.PORT || 3000 });
+
+const server = http.createServer(); // Buat server HTTP
+const wss = new WebSocket.Server({ server }); // Attach WebSocket ke server
 
 let clients = {};
 
@@ -23,4 +26,8 @@ wss.on("connection", (ws) => {
   });
 });
 
-console.log("✅ WebSocket Signaling Server is running.");
+// Dengerin port dari Railway
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`✅ WebSocket Signaling Server is running on port ${PORT}`);
+});
